@@ -15,7 +15,12 @@ namespace BlueGravity.Interview.Inventory
         {
             EventMessenger.Instance.AddListener<ItemPlacedEvent>(OnItemPlacedEvent);
 
-            _inventorySlots = new InventoryItemSlot[16];
+            _inventorySlots = new InventoryItemSlot[34];
+
+            for (int i = 0; i < 34; i++)
+            {
+                _inventorySlots[i] = new InventoryItemSlot() { Id = i };
+            }
 
             //TO DO: add loading inventory from playerprefs
         }
@@ -66,12 +71,12 @@ namespace BlueGravity.Interview.Inventory
             {
                 throw new InvetoryFullException("Slot number exceeds the inventory size");
             }
-            if (_inventorySlots[slotPosition.Value] is not null && (_inventorySlots[slotPosition.Value].InventoryItem != itemData || _inventorySlots[slotPosition.Value].InventoryItem.IsStackable == false))
+            if (_inventorySlots[slotPosition.Value].InventoryItem is not null && (_inventorySlots[slotPosition.Value].InventoryItem != itemData || _inventorySlots[slotPosition.Value].InventoryItem.IsStackable == false))
             {
                 throw new InventorySlotPositionNotEmptyException();
             }
 
-            _inventorySlots[slotPosition.Value] = new InventoryItemSlot() { Count = count, InventoryItem = itemData };
+            _inventorySlots[slotPosition.Value] = new InventoryItemSlot() { Count = count, InventoryItem = itemData, Id = slotPosition.Value };
 
             EventMessenger.Instance.Raise(new InventoryUpdateEvent() { SlotPosition = slotPosition.Value, SlotData = _inventorySlots[slotPosition.Value] });
         }
@@ -86,9 +91,17 @@ namespace BlueGravity.Interview.Inventory
         /// <param name="newSlotNumber"></param>
         public void MoveItem(int beforeSlotNumber, int newSlotNumber)
         {
-            InventoryItemSlot beforeItemSlot = _inventorySlots[beforeSlotNumber];
+            InventoryItemSlot beforeItemSlot = new InventoryItemSlot { 
+                Id = _inventorySlots[beforeSlotNumber].Id,
+                Count = _inventorySlots[beforeSlotNumber].Count,
+                InventoryItem = _inventorySlots[beforeSlotNumber].InventoryItem
+            };
+
             _inventorySlots[beforeSlotNumber] = _inventorySlots[newSlotNumber];
             _inventorySlots[newSlotNumber] = beforeItemSlot;
+
+            _inventorySlots[newSlotNumber].Id = newSlotNumber;
+            _inventorySlots[beforeSlotNumber].Id = beforeSlotNumber;
 
             EventMessenger.Instance.Raise(new InventoryUpdateEvent() { SlotPosition = beforeSlotNumber, SlotData = _inventorySlots[beforeSlotNumber] });
             EventMessenger.Instance.Raise(new InventoryUpdateEvent() { SlotPosition = newSlotNumber, SlotData = _inventorySlots[newSlotNumber] });
@@ -116,7 +129,7 @@ namespace BlueGravity.Interview.Inventory
                     item.Count -= amount;
                     if(item.Count <= 0)
                     {
-                        _inventorySlots[i] = null;
+                        _inventorySlots[i].InventoryItem = null;
                     }
 
                     EventMessenger.Instance.Raise(new InventoryUpdateEvent() { SlotPosition = i, SlotData = _inventorySlots[i] });
@@ -139,7 +152,7 @@ namespace BlueGravity.Interview.Inventory
 
                 if (_inventorySlots[slotNumber].Count <= 0)
                 {
-                    _inventorySlots[slotNumber] = null;
+                    _inventorySlots[slotNumber].InventoryItem = null;
                 }
 
                 EventMessenger.Instance.Raise(new InventoryUpdateEvent() { SlotPosition = slotNumber, SlotData = _inventorySlots[slotNumber] });
@@ -152,7 +165,7 @@ namespace BlueGravity.Interview.Inventory
             for (int i = 0; i < _inventorySlots.Length; i++)
             {
                 InventoryItemSlot item = _inventorySlots[i];
-                string name = item == null ? "null" : item.InventoryItem.ItemName;
+                string name = item.InventoryItem == null ? "null" : item.InventoryItem.ItemName;
                 sb.Append(i + " - " + name + ": " + item?.Count);
                 sb.Append("\n");
             }
@@ -183,7 +196,7 @@ namespace BlueGravity.Interview.Inventory
         {
             for (int i = 0; i < _inventorySlots.Length; i++)
             {
-                if (_inventorySlots[i] == null)
+                if (_inventorySlots[i].InventoryItem == null)
                     return i;
             }
             return -1;

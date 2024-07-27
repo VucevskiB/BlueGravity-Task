@@ -15,11 +15,17 @@ public class InventorySlotUIElement : MonoBehaviour
     private Image _itemImage;
     [SerializeField]
     private TextMeshProUGUI _itemCount;
+
+    [SerializeField]
+    private int _customId = -1;
+
+    public int Id { get => _data.Id; }
+
     internal void Init(InventoryItemSlot item)
     {
         _data = item;
 
-        if (item == null)
+        if (item.InventoryItem == null)
         {
             _itemImage.gameObject.SetActive(false);
             _itemCount.gameObject.SetActive(false);
@@ -38,7 +44,7 @@ public class InventorySlotUIElement : MonoBehaviour
         Debug.Log("BeginDrag");
         EventMessenger.Instance.Raise(new InventoryUIStartedDraggingEvent() { 
             SlotData = _data, 
-            SlotPosition = transform.GetSiblingIndex() });
+            SlotPosition = Id });
 
     }
 

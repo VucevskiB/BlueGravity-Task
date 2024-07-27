@@ -13,5 +13,6 @@ namespace BlueGravity.Interview.Inventory
         public InventoryItemSO InventoryItem { get; set; }
 
         public int Count { get; set; }
+        public int Id { get; internal set; }
     }
 }

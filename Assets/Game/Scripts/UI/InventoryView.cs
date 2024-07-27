@@ -13,6 +13,9 @@ public class InventoryView : MonoBehaviour
     private GameObject _itemSlotUIPrefab;
 
     [SerializeField]
+    private GameObject _equipBar;
+
+    [SerializeField]
     private List<InventorySlotUIElement> _itemSlotsGOList;
 
     [SerializeField]
@@ -45,8 +48,8 @@ public class InventoryView : MonoBehaviour
 
         EventMessenger.Instance.Raise(new ItemPlacedEvent()
         {
-            SlotPosition = _draggingEventData.SlotPosition,
-            SecondSlotPosition = nearestSlot.transform.GetSiblingIndex()
+            SlotPosition = _draggingEventData.SlotData.Id,
+            SecondSlotPosition = nearestSlot.Id
         }) ;
 
         _draggingEventData = null;
@@ -55,7 +58,7 @@ public class InventoryView : MonoBehaviour
     private InventorySlotUIElement FindClosestItemSlotToMousePos()
     {
         var mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mouseWorldPos.z = 0f; // zero z
+        mouseWorldPos.z = 0f;
         _mouseDragIcon.transform.position = mouseWorldPos;
 
         return _itemSlotsGOList.OrderBy(item => Vector3.Distance(mouseWorldPos, item.transform.position)).First();
@@ -83,9 +86,16 @@ public class InventoryView : MonoBehaviour
 
     private void OnInventoryGenerated(InventoryGeneratedEvent eventData)
     {
-        foreach (var item in eventData.ItemList)
+        for (int i = 0; i < eventData.ItemList.Length; i++)
         {
-            var go = Instantiate(_itemSlotUIPrefab, transform);
+            Transform parent = transform;
+            if(i < 10)
+            {
+                parent = _equipBar.transform;
+            }
+            
+            InventoryItemSlot item = eventData.ItemList[i];
+            var go = Instantiate(_itemSlotUIPrefab, parent);
             var slotUIElement = go.GetComponent<InventorySlotUIElement>();
             slotUIElement.Init(item);
             _itemSlotsGOList.Add(slotUIElement);
