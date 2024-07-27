@@ -15,4 +15,4 @@ MonoBehaviour:
   _itemName: Wood
   _description: Wood wood wood
   _isStackable: 1
-  _itemImage: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  _itemImage: {fileID: -1111964287, guid: 772cded9192fa8e4486da8c4db952414, type: 3}
