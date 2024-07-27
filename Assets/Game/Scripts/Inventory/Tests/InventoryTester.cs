@@ -10,8 +10,10 @@ public class InventoryTester : MonoBehaviour
     public InventoryController inventoryController;
 
     // Start is called before the first frame update
-    void Start()
+    IEnumerator Start()
     {
+        yield return new WaitForSeconds(2f);
+
         inventoryController.AddItem(items[0], 1);
         inventoryController.AddItem(items[0], 10);
 

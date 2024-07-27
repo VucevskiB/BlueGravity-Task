@@ -1,3 +1,4 @@
+using BlueGravity.Interview.Patterns;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,9 +13,16 @@ namespace BlueGravity.Interview.Inventory
         // Start is called before the first frame update
         void Awake()
         {
-            _inventorySlots = new InventoryItemSlot[32];
+            EventMessenger.Instance.AddListener<ItemPlacedEvent>(OnItemPlacedEvent);
+
+            _inventorySlots = new InventoryItemSlot[16];
 
             //TO DO: add loading inventory from playerprefs
+        }
+
+        private void Start()
+        {
+            EventMessenger.Instance.Raise(new InventoryGeneratedEvent() { ItemList = _inventorySlots });
         }
 
         /// <summary>
@@ -36,6 +44,10 @@ namespace BlueGravity.Interview.Inventory
                 if(slot != null)
                 {
                     slot.Count += count;
+
+                    EventMessenger.Instance.Raise(new InventoryUpdateEvent() { SlotPosition = Array.IndexOf(_inventorySlots,slot), SlotData = slot });
+
+
                     return;
                 }
             }
@@ -60,6 +72,8 @@ namespace BlueGravity.Interview.Inventory
             }
 
             _inventorySlots[slotPosition.Value] = new InventoryItemSlot() { Count = count, InventoryItem = itemData };
+
+            EventMessenger.Instance.Raise(new InventoryUpdateEvent() { SlotPosition = slotPosition.Value, SlotData = _inventorySlots[slotPosition.Value] });
         }
 
         /// <summary>
@@ -75,6 +89,14 @@ namespace BlueGravity.Interview.Inventory
             InventoryItemSlot beforeItemSlot = _inventorySlots[beforeSlotNumber];
             _inventorySlots[beforeSlotNumber] = _inventorySlots[newSlotNumber];
             _inventorySlots[newSlotNumber] = beforeItemSlot;
+
+            EventMessenger.Instance.Raise(new InventoryUpdateEvent() { SlotPosition = beforeSlotNumber, SlotData = _inventorySlots[beforeSlotNumber] });
+            EventMessenger.Instance.Raise(new InventoryUpdateEvent() { SlotPosition = newSlotNumber, SlotData = _inventorySlots[newSlotNumber] });
+        }
+
+        private void OnItemPlacedEvent(ItemPlacedEvent eventData)
+        {
+            MoveItem(eventData.SlotPosition, eventData.SecondSlotPosition);
         }
 
 
@@ -97,6 +119,8 @@ namespace BlueGravity.Interview.Inventory
                         _inventorySlots[i] = null;
                     }
 
+                    EventMessenger.Instance.Raise(new InventoryUpdateEvent() { SlotPosition = i, SlotData = _inventorySlots[i] });
+
                     return;
                 }
             }
@@ -117,6 +141,8 @@ namespace BlueGravity.Interview.Inventory
                 {
                     _inventorySlots[slotNumber] = null;
                 }
+
+                EventMessenger.Instance.Raise(new InventoryUpdateEvent() { SlotPosition = slotNumber, SlotData = _inventorySlots[slotNumber] });
             }
         
         }
@@ -150,7 +176,7 @@ namespace BlueGravity.Interview.Inventory
 
         /// <summary>
         /// Helper function that finds the first empty slot
-        /// in the invetorty list
+        /// in the inventory list
         /// </summary>
         /// <returns></returns>
         private int GetFirstEmptySlotPosition()
