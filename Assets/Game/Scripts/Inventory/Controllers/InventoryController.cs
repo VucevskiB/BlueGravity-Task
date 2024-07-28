@@ -27,7 +27,6 @@ namespace BlueGravity.Interview.Inventory
                 _inventorySlots[i] = new InventoryItemSlot() { Id = i };
             }
 
-            //TO DO: add loading inventory from playerprefs
         }
 
         private void OnItemConsumed(InventoryUIItemClickedEvent eventData)
@@ -40,20 +39,21 @@ namespace BlueGravity.Interview.Inventory
         private void Start()
         {
             EventMessenger.Instance.Raise(new InventoryGeneratedEvent() { ItemList = _inventorySlots });
+
+            LoadInventoryFromSave();
         }
 
         public void SaveInventory()
         {
             PlayerPrefsManager.SaveInventory(_inventorySlots);
         }
-        public void LoadInventory()
+        public void LoadInventoryFromSave()
         {
             _inventorySlots = PlayerPrefsManager.LoadInventory();
 
             for (int i = 0; i < _inventorySlots.Length; i++)
             {
-                _inventorySlots[i].InventoryItem = _itemDatabaseSO.List.Where(item => item.ItemName == _inventorySlots[i]
-                .ItemId).FirstOrDefault();
+                _inventorySlots[i].InventoryItem = _itemDatabaseSO.Items.GetValueOrDefault(_inventorySlots[i].ItemId,null);
             }
 
             EventMessenger.Instance.Raise(new InventoryLoadedEvent() { ItemList = _inventorySlots });

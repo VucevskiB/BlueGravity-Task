@@ -18,7 +18,7 @@ public static class PlayerPrefsManager
     public static InventoryItemSlot[] LoadInventory() {
         var json = PlayerPrefs.GetString(INVENTORY_KEY);
 
-        InventoryItemSlot[] savedInventory = JsonConvert.DeserializeObject <InventoryItemSlot[]>(json);
+        InventoryItemSlot[] savedInventory = JsonConvert.DeserializeObject<InventoryItemSlot[]>(json);
 
         return savedInventory;
     }

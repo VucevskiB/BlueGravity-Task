@@ -31,8 +31,8 @@ namespace BlueGravity.Interview.Inventory
             {
                 if (string.IsNullOrEmpty(_itemId))
                 {
-                    _itemId = _inventoryItem?.ItemName;
-                    return _inventoryItem?.ItemName;
+                    _itemId = _inventoryItem != null ? _inventoryItem.ItemName : "";
+                    return _itemId;
                 }
                 return _itemId;
             }
