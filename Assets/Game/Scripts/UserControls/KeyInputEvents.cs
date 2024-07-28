@@ -13,3 +13,8 @@ public class PlayerMoveKeyPressedEvent: GameEvent
 {
 
 }
+public class CloseGameKeyPressed : GameEvent
+{
+
+
+}

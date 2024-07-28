@@ -43,5 +43,15 @@ public class UserControls : MonoBehaviour
 
         if (Input.GetKeyDown(_actionBar4))
             EventMessenger.Instance.Raise(new ActionBarKeyPressedEvent() { Num = 4 });
+
+        if (Input.GetKeyDown(KeyCode.X)){
+            EventMessenger.Instance.Raise(new CloseGameKeyPressed());
+            Application.Quit();
+        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        EventMessenger.Instance.Raise(new CloseGameKeyPressed());
     }
 }

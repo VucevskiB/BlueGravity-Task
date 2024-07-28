@@ -7,6 +7,15 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    enum MoveDirection
+    {
+        Idle,
+        Up,
+        Down, 
+        Left, 
+        Right
+    }
+
     [SerializeField]
     private GameObject _playerGO;
 
@@ -18,6 +27,8 @@ public class PlayerManager : MonoBehaviour
 
     [SerializeField]
     private float _moveSpeed;
+
+    private MoveDirection moveDirection;
 
     private void Awake()
     {
@@ -37,43 +48,58 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKey(KeyCode.D))
         {
             _rigidbody2D.velocity = new Vector2(_moveSpeed,0);
-            _animator.SetTrigger("right");
+
+            if(moveDirection != MoveDirection.Right)
+                _animator.SetTrigger("right");
+
             _animator.SetBool("idle", false);
+            moveDirection = MoveDirection.Right;
 
         }
         else
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKey(KeyCode.A))
         {
             _rigidbody2D.velocity = new Vector2(-_moveSpeed, 0);
-            _animator.SetTrigger("left");
+
+            if(moveDirection != MoveDirection.Left)
+                _animator.SetTrigger("left");
+
             _animator.SetBool("idle", false);
+            moveDirection = MoveDirection.Left;
 
         }
         else
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKey(KeyCode.W))
         {
             _rigidbody2D.velocity = new Vector2(0, _moveSpeed);
+
+            if(moveDirection != MoveDirection.Up)
             _animator.SetTrigger("up");
+
             _animator.SetBool("idle", false);
+            moveDirection = MoveDirection.Up;
 
         }
         else
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKey(KeyCode.S))
         {
             _rigidbody2D.velocity = new Vector2(0, -_moveSpeed);
+
+            if(moveDirection != MoveDirection.Down)
             _animator.SetTrigger("down");
+
             _animator.SetBool("idle", false);
-
-
+            moveDirection = MoveDirection.Down;
         }
 
         if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
         {
             _rigidbody2D.velocity = Vector2.zero;
             _animator.SetBool("idle", true);
+            moveDirection = MoveDirection.Idle;
         }
 
         _playerGO.transform.position = new Vector3(_playerGO.transform.position.x, _playerGO.transform.position.y, _playerGO.transform.position.y);

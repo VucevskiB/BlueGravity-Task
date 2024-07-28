@@ -21,6 +21,7 @@ namespace BlueGravity.Interview.Inventory
             EventMessenger.Instance.AddListener<InventoryUIItemClickedEvent>(OnItemConsumed);
 
             EventMessenger.Instance.AddListener<AddItemToInventoryEvent>(OnAddItemToInventoryEvent);
+            EventMessenger.Instance.AddListener<CloseGameKeyPressed>(OnCloseGame);
 
             _inventorySlots = new InventoryItemSlot[34];
 
@@ -29,6 +30,11 @@ namespace BlueGravity.Interview.Inventory
                 _inventorySlots[i] = new InventoryItemSlot() { Id = i };
             }
 
+        }
+
+        private void OnCloseGame(CloseGameKeyPressed eventData)
+        {
+            SaveInventory();
         }
 
         private void OnAddItemToInventoryEvent(AddItemToInventoryEvent eventData)
