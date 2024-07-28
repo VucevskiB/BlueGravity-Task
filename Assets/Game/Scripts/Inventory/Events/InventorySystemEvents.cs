@@ -13,7 +13,7 @@ namespace BlueGravity.Interview.Inventory
         public InventoryItemSlot[] ItemList;
     }
 
-    public class InventoryUpdateEvent : GameEvent 
+    public class InventoryUpdatedEvent : GameEvent 
     {
         public int SlotPosition;
         public InventoryItemSlot SlotData;
@@ -24,6 +24,11 @@ namespace BlueGravity.Interview.Inventory
         public int SlotPosition;
         public InventoryItemSlot SlotData;
 
+    }
+
+    public class AddItemToInventoryEvent : GameEvent
+    {
+        public InventoryItemSO Item;
     }
 
     public class InventoryUIEndDragEvent : GameEvent

@@ -32,7 +32,6 @@ public class PlayerManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -77,5 +76,6 @@ public class PlayerManager : MonoBehaviour
             _animator.SetBool("idle", true);
         }
 
+        _playerGO.transform.position = new Vector3(_playerGO.transform.position.x, _playerGO.transform.position.y, _playerGO.transform.position.y);
     }
 }

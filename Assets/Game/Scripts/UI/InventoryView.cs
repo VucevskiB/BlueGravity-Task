@@ -35,7 +35,7 @@ public class InventoryView : MonoBehaviour
     {
         EventMessenger.Instance.AddListener<InventoryGeneratedEvent>(OnInventoryGenerated);
         EventMessenger.Instance.AddListener<InventoryLoadedEvent>(OnInventoryLoadedEvent);
-        EventMessenger.Instance.AddListener<InventoryUpdateEvent>(OnInventoryUpdated);
+        EventMessenger.Instance.AddListener<InventoryUpdatedEvent>(OnInventoryUpdated);
 
         EventMessenger.Instance.AddListener<InventoryUIStartedDraggingEvent>(OnInventoryUIStartedDragging);
         EventMessenger.Instance.AddListener<InventoryUIEndDragEvent>(OnInventoryUIEndDragEvent);
@@ -110,7 +110,7 @@ public class InventoryView : MonoBehaviour
         _isDragging = true;
     }
 
-    private void OnInventoryUpdated(InventoryUpdateEvent eventData)
+    private void OnInventoryUpdated(InventoryUpdatedEvent eventData)
     {
         _itemSlotsGOList[eventData.SlotPosition].Init(eventData.SlotData);
     }

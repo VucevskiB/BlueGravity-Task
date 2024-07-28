@@ -20,6 +20,8 @@ namespace BlueGravity.Interview.Inventory
             EventMessenger.Instance.AddListener<ItemPlacedEvent>(OnItemPlacedEvent);
             EventMessenger.Instance.AddListener<InventoryUIItemClickedEvent>(OnItemConsumed);
 
+            EventMessenger.Instance.AddListener<AddItemToInventoryEvent>(OnAddItemToInventoryEvent);
+
             _inventorySlots = new InventoryItemSlot[34];
 
             for (int i = 0; i < 34; i++)
@@ -27,6 +29,11 @@ namespace BlueGravity.Interview.Inventory
                 _inventorySlots[i] = new InventoryItemSlot() { Id = i };
             }
 
+        }
+
+        private void OnAddItemToInventoryEvent(AddItemToInventoryEvent eventData)
+        {
+            AddItem(eventData.Item,1);
         }
 
         private void Start()
@@ -82,7 +89,7 @@ namespace BlueGravity.Interview.Inventory
                 {
                     slot.Count += count;
 
-                    EventMessenger.Instance.Raise(new InventoryUpdateEvent() { SlotPosition = Array.IndexOf(_inventorySlots,slot), SlotData = slot });
+                    EventMessenger.Instance.Raise(new InventoryUpdatedEvent() { SlotPosition = Array.IndexOf(_inventorySlots,slot), SlotData = slot });
 
 
                     return;
@@ -110,7 +117,7 @@ namespace BlueGravity.Interview.Inventory
 
             _inventorySlots[slotPosition.Value] = new InventoryItemSlot() { Count = count, InventoryItem = itemData, Id = slotPosition.Value };
 
-            EventMessenger.Instance.Raise(new InventoryUpdateEvent() { SlotPosition = slotPosition.Value, SlotData = _inventorySlots[slotPosition.Value] });
+            EventMessenger.Instance.Raise(new InventoryUpdatedEvent() { SlotPosition = slotPosition.Value, SlotData = _inventorySlots[slotPosition.Value] });
         }
 
         /// <summary>
@@ -135,8 +142,8 @@ namespace BlueGravity.Interview.Inventory
             _inventorySlots[newSlotNumber].Id = newSlotNumber;
             _inventorySlots[beforeSlotNumber].Id = beforeSlotNumber;
 
-            EventMessenger.Instance.Raise(new InventoryUpdateEvent() { SlotPosition = beforeSlotNumber, SlotData = _inventorySlots[beforeSlotNumber] });
-            EventMessenger.Instance.Raise(new InventoryUpdateEvent() { SlotPosition = newSlotNumber, SlotData = _inventorySlots[newSlotNumber] });
+            EventMessenger.Instance.Raise(new InventoryUpdatedEvent() { SlotPosition = beforeSlotNumber, SlotData = _inventorySlots[beforeSlotNumber] });
+            EventMessenger.Instance.Raise(new InventoryUpdatedEvent() { SlotPosition = newSlotNumber, SlotData = _inventorySlots[newSlotNumber] });
         }
 
         private void OnItemPlacedEvent(ItemPlacedEvent eventData)
@@ -164,7 +171,7 @@ namespace BlueGravity.Interview.Inventory
                         _inventorySlots[i].InventoryItem = null;
                     }
 
-                    EventMessenger.Instance.Raise(new InventoryUpdateEvent() { SlotPosition = i, SlotData = _inventorySlots[i] });
+                    EventMessenger.Instance.Raise(new InventoryUpdatedEvent() { SlotPosition = i, SlotData = _inventorySlots[i] });
 
                     return;
                 }
@@ -187,7 +194,7 @@ namespace BlueGravity.Interview.Inventory
                     _inventorySlots[slotNumber].InventoryItem = null;
                 }
 
-                EventMessenger.Instance.Raise(new InventoryUpdateEvent() { SlotPosition = slotNumber, SlotData = _inventorySlots[slotNumber] });
+                EventMessenger.Instance.Raise(new InventoryUpdatedEvent() { SlotPosition = slotNumber, SlotData = _inventorySlots[slotNumber] });
             }
         
         }
