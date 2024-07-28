@@ -93,7 +93,11 @@ namespace BlueGravity.Interview.Inventory
         /// </summary>
         public void LoadInventoryFromSave()
         {
-            _inventorySlots = PlayerPrefsManager.LoadInventory();
+            var savedInv = PlayerPrefsManager.LoadInventory();
+            if(savedInv is not null && savedInv.Count() > 0)
+            {
+                _inventorySlots = savedInv;
+            }
 
             for (int i = 0; i < _inventorySlots.Length; i++)
             {
