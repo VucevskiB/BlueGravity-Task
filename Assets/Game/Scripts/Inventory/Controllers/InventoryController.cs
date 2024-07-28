@@ -1,4 +1,6 @@
+using BlueGravity.Interview.Controls;
 using BlueGravity.Interview.Patterns;
+using BlueGravity.Interview.Utility;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +12,7 @@ namespace BlueGravity.Interview.Inventory
 {
     public class InventoryController : MonoBehaviour
     {
+        private const int INVENTORY_SPACE = 34;
         [SerializeField]
         private ItemDatabaseSO _itemDatabaseSO;
 
@@ -22,26 +25,9 @@ namespace BlueGravity.Interview.Inventory
 
             EventMessenger.Instance.AddListener<AddItemToInventoryEvent>(OnAddItemToInventoryEvent);
             EventMessenger.Instance.AddListener<CloseGameKeyPressed>(OnCloseGame);
-
-            _inventorySlots = new InventoryItemSlot[34];
-
-            for (int i = 0; i < 34; i++)
-            {
-                _inventorySlots[i] = new InventoryItemSlot() { Id = i };
-            }
+            GenerateInventory();
 
         }
-
-        private void OnCloseGame(CloseGameKeyPressed eventData)
-        {
-            SaveInventory();
-        }
-
-        private void OnAddItemToInventoryEvent(AddItemToInventoryEvent eventData)
-        {
-            AddItem(eventData.Item,1);
-        }
-
         private void Start()
         {
             EventMessenger.Instance.Raise(new InventoryGeneratedEvent() { ItemList = _inventorySlots });
@@ -49,6 +35,41 @@ namespace BlueGravity.Interview.Inventory
             LoadInventoryFromSave();
         }
 
+        /// <summary>
+        /// Generates the inventory slots
+        /// </summary>
+        private void GenerateInventory()
+        {
+            _inventorySlots = new InventoryItemSlot[INVENTORY_SPACE];
+
+            for (int i = 0; i < INVENTORY_SPACE; i++)
+            {
+                _inventorySlots[i] = new InventoryItemSlot() { Id = i };
+            }
+        }
+
+        /// <summary>
+        /// Called when the game is closed
+        /// </summary>
+        /// <param name="eventData"></param>
+        private void OnCloseGame(CloseGameKeyPressed eventData)
+        {
+            SaveInventory();
+        }
+
+        /// <summary>
+        /// Called when a new items is trying to be added to the inventory
+        /// </summary>
+        /// <param name="eventData"></param>
+        private void OnAddItemToInventoryEvent(AddItemToInventoryEvent eventData)
+        {
+            AddItem(eventData.Item,1);
+        }
+
+        /// <summary>
+        /// Called when an item from the inventory is used/consumed
+        /// </summary>
+        /// <param name="eventData"></param>
         private void OnItemConsumed(InventoryUIItemClickedEvent eventData)
         {
             if (_inventorySlots[eventData.SlotId].InventoryItem is null)
@@ -59,10 +80,17 @@ namespace BlueGravity.Interview.Inventory
             RemoveItemFromInventory(eventData.SlotId, 1);
         }
 
+        /// <summary>
+        /// Saves the current state of the inventory in PlayerPrefs
+        /// </summary>
         public void SaveInventory()
         {
             PlayerPrefsManager.SaveInventory(_inventorySlots);
         }
+
+        /// <summary>
+        /// Loads last saved inventory state from PlayerPrefs
+        /// </summary>
         public void LoadInventoryFromSave()
         {
             _inventorySlots = PlayerPrefsManager.LoadInventory();
@@ -204,6 +232,12 @@ namespace BlueGravity.Interview.Inventory
             }
         
         }
+
+        /// <summary>
+        /// Used for testing if inventory works as intended.
+        /// </summary>
+        /// <returns></returns>
+        [Obsolete]
         public InventoryItemSlot[] GetItems()
         {
             StringBuilder sb = new StringBuilder();

@@ -1,35 +1,32 @@
+using BlueGravity.Interview.Collectables;
 using BlueGravity.Interview.Inventory;
 using BlueGravity.Interview.Patterns;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+namespace BlueGravity.Interview.Player
 {
-    [SerializeField]
-    private CollectablesManager _collectablesManager;
-
-    // Start is called before the first frame update
-    void Start()
+    public class Player : MonoBehaviour
     {
-        
-    }
+        [SerializeField]
+        private CollectablesManager _collectablesManager;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+        /// <summary>
+        /// If the player game object collides with a collectable item
+        /// then add that item to their inventory
+        /// </summary>
+        /// <param name="collision"></param>
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.tag != "Item")
+                return;
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag != "Item")
-            return;
+            var item = collision.GetComponent<CollectableItem>().ItemData;
 
-        var item = collision.GetComponent<CollectableItem>().ItemData;
+            EventMessenger.Instance.Raise(new AddItemToInventoryEvent() { Item = item });
 
-        EventMessenger.Instance.Raise(new AddItemToInventoryEvent() { Item = item });
-
-        _collectablesManager.ItemCollected(collision.gameObject);
+            _collectablesManager.ItemCollected(collision.gameObject);
+        }
     }
 }

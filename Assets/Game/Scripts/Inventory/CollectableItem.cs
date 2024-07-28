@@ -3,16 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CollectableItem : MonoBehaviour
+namespace BlueGravity.Interview.Inventory
 {
-    private InventoryItemSO _itemData;
-
-    public InventoryItemSO ItemData { get => _itemData; set => _itemData = value; }
-
-
-    public void Init(InventoryItemSO data)
+    public class CollectableItem : MonoBehaviour
     {
-        _itemData = data;
-        GetComponentInChildren<SpriteRenderer>().sprite = _itemData.ItemImage;
+        private InventoryItemSO _itemData;
+
+        public InventoryItemSO ItemData { get => _itemData; set => _itemData = value; }
+
+
+        public void Init(InventoryItemSO data)
+        {
+            _itemData = data;
+            GetComponentInChildren<SpriteRenderer>().sprite = _itemData.ItemImage;
+        }
     }
 }

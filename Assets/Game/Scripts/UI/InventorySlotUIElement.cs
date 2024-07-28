@@ -7,6 +7,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+/// <summary>
+/// Component placed on the InventorySlotUIElement prefab
+/// that helps manage all input controls of the Inventory Item Slot element
+/// </summary>
 public class InventorySlotUIElement : MonoBehaviour
 {
     private InventoryItemSlot _data;
@@ -24,6 +29,12 @@ public class InventorySlotUIElement : MonoBehaviour
 
     public int Id { get => _data.Id; }
 
+
+    /// <summary>
+    /// Init slot item from the inventory.
+    /// If slot does not have a item in it, then hide visual components 
+    /// </summary>
+    /// <param name="item"></param>
     internal void Init(InventoryItemSlot item)
     {
         _data = item;
@@ -42,6 +53,9 @@ public class InventorySlotUIElement : MonoBehaviour
         _itemCount.gameObject.SetActive(true);
     }
 
+    /// <summary>
+    /// Called from the EventTrigger Component BeginDrag
+    /// </summary>
     public void OnBeginDrag()
     {
         Debug.Log("BeginDrag");
@@ -51,13 +65,17 @@ public class InventorySlotUIElement : MonoBehaviour
         });
 
     }
-
+    /// <summary>
+    /// Called from the EventTrigger Component PointerUp
+    /// </summary>
     public void OnPointerUp()
     {
         Debug.Log("End Drag");
         EventMessenger.Instance.Raise(new InventoryUIEndDragEvent());
     }
-
+    /// <summary>
+    /// Called from the EventTrigger Component PointerClick
+    /// </summary>
     public void OnPointerClick()
     {
         if (_data.InventoryItem == null)
@@ -70,6 +88,9 @@ public class InventorySlotUIElement : MonoBehaviour
         Debug.Log("Click!");
     }
 
+    /// <summary>
+    /// Called from the EventTrigger Component PointerEnter
+    /// </summary>
     public void OnMouseHover()
     {
         if (_data.InventoryItem == null)
@@ -80,6 +101,10 @@ public class InventorySlotUIElement : MonoBehaviour
 
         ToolTipController.Instance.Open(_data.InventoryItem.Description, screenPos2D, _toolTipOffset, 0);
     }
+
+    /// <summary>
+    /// Called from the EventTrigger Component PointerExit
+    /// </summary>
     public void OnPointerExit()
     {
         ToolTipController.Instance.Close();

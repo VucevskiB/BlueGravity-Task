@@ -4,22 +4,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class PlayerPrefsManager 
+namespace BlueGravity.Interview.Utility
 {
-    private const string INVENTORY_KEY = "inventory";
-
-    public static void SaveInventory(InventoryItemSlot[] data)
+    /// <summary>
+    /// PlayerPrefs wrapper class that manages calls to the PlayerPrefs class from the Unity Engine.
+    /// </summary>
+    public static class PlayerPrefsManager
     {
-        var json = JsonConvert.SerializeObject(data);
-        
-        PlayerPrefs.SetString(INVENTORY_KEY,json);
-    }
+        private const string INVENTORY_KEY = "inventory";
 
-    public static InventoryItemSlot[] LoadInventory() {
-        var json = PlayerPrefs.GetString(INVENTORY_KEY);
+        /// <summary>
+        /// Convert the inventory data to JSON to save as a text file
+        /// </summary>
+        /// <param name="data"></param>
+        public static void SaveInventory(InventoryItemSlot[] data)
+        {
+            var json = JsonConvert.SerializeObject(data);
 
-        InventoryItemSlot[] savedInventory = JsonConvert.DeserializeObject<InventoryItemSlot[]>(json);
+            PlayerPrefs.SetString(INVENTORY_KEY, json);
+        }
 
-        return savedInventory;
+        /// <summary>
+        /// Loads the inventory data from a text file from PlayerPrefs.
+        /// </summary>
+        /// <returns></returns>
+        public static InventoryItemSlot[] LoadInventory()
+        {
+            var json = PlayerPrefs.GetString(INVENTORY_KEY);
+
+            InventoryItemSlot[] savedInventory = JsonConvert.DeserializeObject<InventoryItemSlot[]>(json);
+
+            return savedInventory;
+        }
     }
 }
