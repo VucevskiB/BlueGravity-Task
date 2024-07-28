@@ -2,6 +2,7 @@ using BlueGravity.Interview.Patterns;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 
@@ -9,6 +10,9 @@ namespace BlueGravity.Interview.Inventory
 {
     public class InventoryController : MonoBehaviour
     {
+        [SerializeField]
+        private ItemDatabaseSO _itemDatabaseSO;
+
         private InventoryItemSlot[] _inventorySlots;
         // Start is called before the first frame update
         void Awake()
@@ -36,6 +40,23 @@ namespace BlueGravity.Interview.Inventory
         private void Start()
         {
             EventMessenger.Instance.Raise(new InventoryGeneratedEvent() { ItemList = _inventorySlots });
+        }
+
+        public void SaveInventory()
+        {
+            PlayerPrefsManager.SaveInventory(_inventorySlots);
+        }
+        public void LoadInventory()
+        {
+            _inventorySlots = PlayerPrefsManager.LoadInventory();
+
+            for (int i = 0; i < _inventorySlots.Length; i++)
+            {
+                _inventorySlots[i].InventoryItem = _itemDatabaseSO.List.Where(item => item.ItemName == _inventorySlots[i]
+                .ItemId).FirstOrDefault();
+            }
+
+            EventMessenger.Instance.Raise(new InventoryLoadedEvent() { ItemList = _inventorySlots });
         }
 
         /// <summary>

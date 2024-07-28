@@ -1,4 +1,6 @@
 using BlueGravity.Interview.Inventory;
+using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,11 +10,32 @@ namespace BlueGravity.Interview.Inventory
     /// <summary>
     /// It holds data for a specific slot in the inventory array.
     /// </summary>
+    [Serializable]
+    [JsonObject(MemberSerialization.OptIn)]
     public class InventoryItemSlot
     {
-        public InventoryItemSO InventoryItem { get; set; }
+        private InventoryItemSO _inventoryItem;
+        private int _count;
+        private int _id;
+        private string _itemId;
 
-        public int Count { get; set; }
-        public int Id { get; internal set; }
+        public InventoryItemSO InventoryItem { get => _inventoryItem; set => _inventoryItem = value; }
+
+        [JsonProperty]
+        public int Count { get => _count; set => _count = value; }
+        [JsonProperty]
+        public int Id { get => _id; internal set => _id = value; }
+
+        [JsonProperty]
+        public string ItemId { get
+            {
+                if (string.IsNullOrEmpty(_itemId))
+                {
+                    _itemId = _inventoryItem?.ItemName;
+                    return _inventoryItem?.ItemName;
+                }
+                return _itemId;
+            }
+            set => _itemId = value; }
     }
 }

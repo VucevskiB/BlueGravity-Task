@@ -9,6 +9,9 @@ namespace BlueGravity.Interview.Inventory
     {
         public InventoryItemSlot[] ItemList;
     }
+    public class InventoryLoadedEvent : GameEvent {
+        public InventoryItemSlot[] ItemList;
+    }
 
     public class InventoryUpdateEvent : GameEvent 
     {

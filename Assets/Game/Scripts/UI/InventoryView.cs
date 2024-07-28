@@ -34,6 +34,7 @@ public class InventoryView : MonoBehaviour
     private void Awake()
     {
         EventMessenger.Instance.AddListener<InventoryGeneratedEvent>(OnInventoryGenerated);
+        EventMessenger.Instance.AddListener<InventoryLoadedEvent>(OnInventoryLoadedEvent);
         EventMessenger.Instance.AddListener<InventoryUpdateEvent>(OnInventoryUpdated);
 
         EventMessenger.Instance.AddListener<InventoryUIStartedDraggingEvent>(OnInventoryUIStartedDragging);
@@ -44,6 +45,14 @@ public class InventoryView : MonoBehaviour
         _itemSlotsGOList = new List<InventorySlotUIElement>();
 
         _windowOpened = true;
+    }
+
+    private void OnInventoryLoadedEvent(InventoryLoadedEvent eventData)
+    {
+        foreach (var item in eventData.ItemList)
+        {
+            _itemSlotsGOList[item.Id].Init(item);
+        }
     }
 
     private void OnOpenInventoryKeyPressedEvent(OpenInventoryKeyPressedEvent eventData)
@@ -86,7 +95,7 @@ public class InventoryView : MonoBehaviour
 
     private void OnInventoryUIStartedDragging(InventoryUIStartedDraggingEvent eventData)
     {
-        if(eventData.SlotData == null)
+        if(eventData.SlotData.InventoryItem == null)
         {
             return;
         }

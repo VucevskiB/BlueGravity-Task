@@ -181,7 +181,7 @@ GameObject:
   - component: {fileID: 172698185}
   - component: {fileID: 172698184}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Save Inventory Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -250,7 +250,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 172698185}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1825398863}
+        m_TargetAssemblyTypeName: BlueGravity.Interview.Inventory.InventoryController,
+          Assembly-CSharp
+        m_MethodName: SaveInventory
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &172698185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -481,7 +494,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Add i1
+  m_text: Save
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -829,7 +842,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.76000977, y: -194.34999}
+  m_AnchoredPosition: {x: -0.76000977, y: -194.34998}
   m_SizeDelta: {x: -369.21, y: -229.75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &778801169
@@ -846,7 +859,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1420,7 +1433,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Add i2
+  m_text: Load
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1532,7 +1545,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -104.000015}
+  m_AnchoredPosition: {x: 0, y: -104}
   m_SizeDelta: {x: -200, y: -200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1423310322
@@ -1549,7 +1562,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1721,6 +1734,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a962a33aac971543ae920c8e9e50500, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _itemDatabaseSO: {fileID: 11400000, guid: 59f37f42b1e533d4f8421e7bccd78dbd, type: 2}
 --- !u!4 &1825398864
 Transform:
   m_ObjectHideFlags: 0
@@ -1861,7 +1875,7 @@ GameObject:
   - component: {fileID: 2084195391}
   - component: {fileID: 2084195390}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: Load Inventory Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1930,7 +1944,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2084195391}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1825398863}
+        m_TargetAssemblyTypeName: BlueGravity.Interview.Inventory.InventoryController,
+          Assembly-CSharp
+        m_MethodName: LoadInventory
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2084195391
 MonoBehaviour:
   m_ObjectHideFlags: 0
