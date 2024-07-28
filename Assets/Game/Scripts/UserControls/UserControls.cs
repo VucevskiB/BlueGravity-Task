@@ -1,12 +1,22 @@
 using BlueGravity.Interview.Patterns;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
 public class UserControls : MonoBehaviour
 {
     [SerializeField]
     private KeyCode _openInventoryKey;
+
+    [SerializeField]
+    private KeyCode _actionBar1;
+    [SerializeField]
+    private KeyCode _actionBar2;
+    [SerializeField]
+    private KeyCode _actionBar3;
+    [SerializeField]
+    private KeyCode _actionBar4;
 
     // Start is called before the first frame update
     void Start()
@@ -21,5 +31,17 @@ public class UserControls : MonoBehaviour
         {
             EventMessenger.Instance.Raise(new OpenInventoryKeyPressedEvent());
         }
+
+        if (Input.GetKeyDown(_actionBar1))
+            EventMessenger.Instance.Raise(new ActionBarKeyPressedEvent() { Num = 1 });
+
+        if (Input.GetKeyDown(_actionBar2))
+            EventMessenger.Instance.Raise(new ActionBarKeyPressedEvent() { Num = 2 });
+
+        if (Input.GetKeyDown(_actionBar3))
+            EventMessenger.Instance.Raise(new ActionBarKeyPressedEvent() { Num = 3 });
+
+        if (Input.GetKeyDown(_actionBar4))
+            EventMessenger.Instance.Raise(new ActionBarKeyPressedEvent() { Num = 4 });
     }
 }

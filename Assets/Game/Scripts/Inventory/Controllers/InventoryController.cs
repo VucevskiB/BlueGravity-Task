@@ -29,18 +29,21 @@ namespace BlueGravity.Interview.Inventory
 
         }
 
-        private void OnItemConsumed(InventoryUIItemClickedEvent eventData)
-        {
-            Debug.Log($"<color=#00FF00> {eventData.SlotData.InventoryItem.name} consumed...</color>");
-
-            RemoveItemFromInventory(eventData.SlotData.Id, 1);
-        }
-
         private void Start()
         {
             EventMessenger.Instance.Raise(new InventoryGeneratedEvent() { ItemList = _inventorySlots });
 
             LoadInventoryFromSave();
+        }
+
+        private void OnItemConsumed(InventoryUIItemClickedEvent eventData)
+        {
+            if (_inventorySlots[eventData.SlotId].InventoryItem is null)
+                return;
+
+            Debug.Log($"<color=#00FF00> {_inventorySlots[eventData.SlotId].InventoryItem.name} consumed...</color>");
+
+            RemoveItemFromInventory(eventData.SlotId, 1);
         }
 
         public void SaveInventory()

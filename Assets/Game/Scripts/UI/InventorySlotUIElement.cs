@@ -64,7 +64,7 @@ public class InventorySlotUIElement : MonoBehaviour
             return;
 
         EventMessenger.Instance.Raise(new InventoryUIItemClickedEvent() {
-            SlotData = _data
+            SlotId = _data.Id
         });
 
         Debug.Log("Click!");

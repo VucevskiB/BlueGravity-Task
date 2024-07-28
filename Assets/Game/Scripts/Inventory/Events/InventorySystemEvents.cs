@@ -33,7 +33,7 @@ namespace BlueGravity.Interview.Inventory
 
     public class InventoryUIItemClickedEvent : GameEvent
     {
-        public InventoryItemSlot SlotData;
+        public int SlotId;
     }
 
     public class ItemPlacedEvent : GameEvent

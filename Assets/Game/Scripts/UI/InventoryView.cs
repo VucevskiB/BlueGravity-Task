@@ -44,7 +44,9 @@ public class InventoryView : MonoBehaviour
 
         _itemSlotsGOList = new List<InventorySlotUIElement>();
 
-        _windowOpened = true;
+        _windowOpened = false;
+        _inventoryWindow.SetActive(false);
+        _inventoryWindowContainer.SetActive(false);
     }
 
     private void OnInventoryLoadedEvent(InventoryLoadedEvent eventData)
