@@ -19,6 +19,9 @@ public class InventorySlotUIElement : MonoBehaviour
     [SerializeField]
     private int _customId = -1;
 
+    [SerializeField]
+    private Vector2 _toolTipOffset;
+
     public int Id { get => _data.Id; }
 
     internal void Init(InventoryItemSlot item)
@@ -65,5 +68,20 @@ public class InventorySlotUIElement : MonoBehaviour
         });
 
         Debug.Log("Click!");
+    }
+
+    public void OnMouseHover()
+    {
+        if (_data.InventoryItem == null)
+            return;
+
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(this.transform.position);
+        Vector2 screenPos2D = new Vector2(screenPos.x, screenPos.y);
+
+        ToolTipController.Instance.Open(_data.InventoryItem.Description, screenPos2D, _toolTipOffset, 0);
+    }
+    public void OnPointerExit()
+    {
+        ToolTipController.Instance.Close();
     }
 }
