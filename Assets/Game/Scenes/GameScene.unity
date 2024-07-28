@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 25545767}
   - component: {fileID: 25545768}
   m_Layer: 0
-  m_Name: UserContols
+  m_Name: UserControls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -208,7 +208,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -21.8}
+  m_AnchoredPosition: {x: 50, y: -21.800003}
   m_SizeDelta: {x: 100, y: 43.61}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &172698184
@@ -1150,7 +1150,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.76000977, y: -194.34999}
+  m_AnchoredPosition: {x: -0.76000977, y: -194.34998}
   m_SizeDelta: {x: -369.21, y: -229.75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &778801169
@@ -2214,7 +2214,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -104.000015}
+  m_AnchoredPosition: {x: 0, y: -104}
   m_SizeDelta: {x: -200, y: -200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1423310322
