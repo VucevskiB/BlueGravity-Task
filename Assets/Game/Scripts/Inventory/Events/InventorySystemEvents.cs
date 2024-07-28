@@ -28,6 +28,11 @@ namespace BlueGravity.Interview.Inventory
         
     }
 
+    public class InventoryUIItemClickedEvent : GameEvent
+    {
+        public InventoryItemSlot SlotData;
+    }
+
     public class ItemPlacedEvent : GameEvent
     {
         public int SlotPosition;

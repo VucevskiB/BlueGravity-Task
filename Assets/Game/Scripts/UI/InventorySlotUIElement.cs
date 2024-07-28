@@ -44,7 +44,8 @@ public class InventorySlotUIElement : MonoBehaviour
         Debug.Log("BeginDrag");
         EventMessenger.Instance.Raise(new InventoryUIStartedDraggingEvent() { 
             SlotData = _data, 
-            SlotPosition = Id });
+            SlotPosition = Id 
+        });
 
     }
 
@@ -52,5 +53,17 @@ public class InventorySlotUIElement : MonoBehaviour
     {
         Debug.Log("End Drag");
         EventMessenger.Instance.Raise(new InventoryUIEndDragEvent());
+    }
+
+    public void OnPointerClick()
+    {
+        if (_data.InventoryItem == null)
+            return;
+
+        EventMessenger.Instance.Raise(new InventoryUIItemClickedEvent() {
+            SlotData = _data
+        });
+
+        Debug.Log("Click!");
     }
 }

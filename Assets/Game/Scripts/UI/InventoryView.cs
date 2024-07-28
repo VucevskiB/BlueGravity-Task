@@ -16,6 +16,12 @@ public class InventoryView : MonoBehaviour
     private GameObject _equipBar;
 
     [SerializeField]
+    private GameObject _inventoryWindow;
+
+    [SerializeField] 
+    private GameObject _inventoryWindowContainer;
+
+    [SerializeField]
     private List<InventorySlotUIElement> _itemSlotsGOList;
 
     [SerializeField]
@@ -23,6 +29,8 @@ public class InventoryView : MonoBehaviour
 
     private bool _isDragging;
     private InventoryUIStartedDraggingEvent _draggingEventData;
+
+    private bool _windowOpened;
     private void Awake()
     {
         EventMessenger.Instance.AddListener<InventoryGeneratedEvent>(OnInventoryGenerated);
@@ -31,7 +39,19 @@ public class InventoryView : MonoBehaviour
         EventMessenger.Instance.AddListener<InventoryUIStartedDraggingEvent>(OnInventoryUIStartedDragging);
         EventMessenger.Instance.AddListener<InventoryUIEndDragEvent>(OnInventoryUIEndDragEvent);
 
+        EventMessenger.Instance.AddListener<OpenInventoryKeyPressedEvent>(OnOpenInventoryKeyPressedEvent);
+
         _itemSlotsGOList = new List<InventorySlotUIElement>();
+
+        _windowOpened = true;
+    }
+
+    private void OnOpenInventoryKeyPressedEvent(OpenInventoryKeyPressedEvent eventData)
+    {
+        _windowOpened = !_windowOpened;
+
+        _inventoryWindow.SetActive(_windowOpened);
+        _inventoryWindowContainer.SetActive(_windowOpened);
     }
 
     private void OnInventoryUIEndDragEvent(InventoryUIEndDragEvent eventData)
@@ -88,7 +108,7 @@ public class InventoryView : MonoBehaviour
     {
         for (int i = 0; i < eventData.ItemList.Length; i++)
         {
-            Transform parent = transform;
+            Transform parent = _inventoryWindow.transform;
             if(i < 10)
             {
                 parent = _equipBar.transform;

@@ -14,6 +14,7 @@ namespace BlueGravity.Interview.Inventory
         void Awake()
         {
             EventMessenger.Instance.AddListener<ItemPlacedEvent>(OnItemPlacedEvent);
+            EventMessenger.Instance.AddListener<InventoryUIItemClickedEvent>(OnItemConsumed);
 
             _inventorySlots = new InventoryItemSlot[34];
 
@@ -23,6 +24,13 @@ namespace BlueGravity.Interview.Inventory
             }
 
             //TO DO: add loading inventory from playerprefs
+        }
+
+        private void OnItemConsumed(InventoryUIItemClickedEvent eventData)
+        {
+            Debug.Log($"<color=#00FF00> {eventData.SlotData.InventoryItem.name} consumed...</color>");
+
+            RemoveItemFromInventory(eventData.SlotData.Id, 1);
         }
 
         private void Start()
